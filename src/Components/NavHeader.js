@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Toolbar, Button,  makeStyles, List, ListItem, Popper, useTheme, useMediaQuery, IconButton, Paper } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-export default function NavHeader (cartItem, setCartItem) {
+export default function NavHeader (props) {
 
+    const { cartItem, setCartItem } = props;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
         defaultMatches: true
@@ -11,9 +12,14 @@ export default function NavHeader (cartItem, setCartItem) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    useEffect(() => {
+        setCartItem({ small : 1, medium: 0, large: 3 });
+    }, []);
+    
     
 
-
+    
 
 
     const handleMenu = (event) => {
@@ -31,7 +37,7 @@ export default function NavHeader (cartItem, setCartItem) {
                         onClick={handleMenu}
                         
                     >
-                        <ShoppingCartIcon styles={open === true ? { color: '#222222'} : {}}/>(4)
+                        <ShoppingCartIcon styles={open === true ? { color: '#222222'} : {}}/>({cartItem.small + cartItem.medium + cartItem.large})
                     </IconButton>
                     :
                     <Button 
@@ -42,7 +48,7 @@ export default function NavHeader (cartItem, setCartItem) {
                         onClick={handleMenu}
                         styles={open === true ? { color: '#222222'} : {}}
                         >
-                            My Cart(4)</Button>
+                            My Cart({cartItem.small + cartItem.medium + cartItem.large})</Button>
                 }
                
                <Popper
@@ -51,22 +57,51 @@ export default function NavHeader (cartItem, setCartItem) {
                     placement='bottom-end'
                ><Paper>
                    <List>
-                       {cartItem.map((item) => (
-                            <ListItem className={classes.cartItem}>
-                                <img className={classes.cartImage} src={process.env.PUBLIC_URL + '/classic-tee.jpg'} />
-                                <div className={classes.cartDetail}>
-                                    <div className={classes.cartItemTitle}>{item.tile}</div>
-                                    <div className={classes.cartItemPriceQuantity}>
-                                        <span>{item.quantity}x</span>
-                                        <span className={classes.cartItemPrice}>${item.price}</span>
-                                    </div>
-                                    <div className={classes.cartItemSize}>
-                                        Size: {item.size}
-                                    </div>
+                       {cartItem.small !== 0 &&
+                        <ListItem className={classes.cartItem}>
+                            <img className={classes.cartImage} src={process.env.PUBLIC_URL + '/classic-tee.jpg'} />
+                            <div className={classes.cartDetail}>
+                                <div className={classes.cartItemTitle}>Classic Tee</div>
+                                <div className={classes.cartItemPriceQuantity}>
+                                    <span>{cartItem.small}</span>
+                                    <span className={classes.cartItemPrice}>$75.00</span>
                                 </div>
-                                
-                            </ListItem>
-                       ))}
+                                <div className={classes.cartItemSize}>
+                                    Size: S
+                                </div>
+                            </div>        
+                        </ListItem>
+                       }
+                       {cartItem.medium !== 0 &&
+                        <ListItem className={classes.cartItem}>
+                            <img className={classes.cartImage} src={process.env.PUBLIC_URL + '/classic-tee.jpg'} />
+                            <div className={classes.cartDetail}>
+                                <div className={classes.cartItemTitle}>Classic Tee</div>
+                                <div className={classes.cartItemPriceQuantity}>
+                                    <span>{cartItem.medium}</span>
+                                    <span className={classes.cartItemPrice}>$75.00</span>
+                                </div>
+                                <div className={classes.cartItemSize}>
+                                    Size: M
+                                </div>
+                            </div>        
+                        </ListItem>
+                       }
+                       {cartItem.large !== 0 &&
+                        <ListItem className={classes.cartItem}>
+                            <img className={classes.cartImage} src={process.env.PUBLIC_URL + '/classic-tee.jpg'} />
+                            <div className={classes.cartDetail}>
+                                <div className={classes.cartItemTitle}>Classic Tee</div>
+                                <div className={classes.cartItemPriceQuantity}>
+                                    <span>{cartItem.large}</span>
+                                    <span className={classes.cartItemPrice}>$75.00</span>
+                                </div>
+                                <div className={classes.cartItemSize}>
+                                    Size: L
+                                </div>
+                            </div>        
+                        </ListItem>
+                       }
                    </List>
                    </Paper>
                </Popper>

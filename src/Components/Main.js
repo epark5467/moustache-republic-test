@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button, makeStyles, useTheme, useMediaQuery, unstable_createMuiStrictModeTheme } from '@material-ui/core';
 
-export default function Main() {
+export default function Main(props) {
 
+    const { cartItem, setCartItem } = props;
     const classes = mainStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
@@ -17,6 +18,15 @@ export default function Main() {
     };
 
     const addItemToCart = () => {
+        if(selectedSizesValue === "") {
+            // alert message
+        } else if (selectedSizesValue === "S") {
+            setCartItem({...cartItem, small: cartItem.small + 1});
+        } else if (selectedSizesValue === "M") {
+            setCartItem({...cartItem, medium: cartItem.medium + 1});
+        } else if (selectedSizesValue === "L") {
+            setCartItem({...cartItem, large: cartItem.large + 1});
+        }
     }
 
     return (

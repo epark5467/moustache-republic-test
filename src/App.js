@@ -1,15 +1,12 @@
-
 import './App.css';
 import NavHeader from './Components/NavHeader';
-import { useState } from 'React';
+import React, { useState } from 'react';
 import Main from './Components/Main';
 import { makeStyles, useTheme, useMediaQuery } from '@material-ui/core';
 
 function App() {
-  const [cartItem, setCartItem] = useState([
-    {title: "Classic Tee", quantity: "1", price: "75.00", size: "S" },
-    {title: "Classic Tee", quantity: "3", price: "75.00", size: "L" }
-]);
+  const [cartItem, setCartItem] = useState([]);
+
 
   const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'), {
